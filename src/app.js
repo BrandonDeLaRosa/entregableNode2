@@ -3,6 +3,7 @@ const db = require('./utils/database')
 const initModels = require('./models/initModel');
 const Users = require('./models/users.model');
 const ToDos = require('./models/toDos.model');
+const userRoutes = require ('./routes/users.routes')
 
 const app = express();
 app.use(express.json())
@@ -29,25 +30,25 @@ db.sync({alter: false})   //<-- Este codigo modifica el contenido de las tablas.
 // =========================================================================== PETICIONES ==========================================================================================
 
                                                                         // USERS
-app.get('/users', async (req,res) => {
-    try{
-        const result = await Users.findAll();   // <--- EL RESULTADO DE CONSULTAR A TODOS LOS USUARIOS DE LA BASE DE DATOS.
-        res.status(200).json(result);  
-    } catch (error) {
-        console.log(error);
-    }
-});
+// app.get('/users', async (req,res) => {
+//     try{
+//         const result = await Users.findAll();   // <--- EL RESULTADO DE CONSULTAR A TODOS LOS USUARIOS DE LA BASE DE DATOS.
+//         res.status(200).json(result);  
+//     } catch (error) {
+//         console.log(error);
+//     }
+// });
 
 // Crear usuario
-app.post('/users', async (req, res) => {
-    try{
-        const user = req.body;
-        const result = await Users.create(user)
-        res.status(201).json(result)
-    }catch (error) {
-        console.log(error);
-    }
-});
+// app.post('/users', async (req, res) => {
+//     try{
+//         const user = req.body;
+//         const result = await Users.create(user)
+//         res.status(201).json(result)
+//     }catch (error) {
+//         console.log(error);
+//     }
+// });
 
 
 // Actualizar un usuario, solo podemos cambiar password
@@ -127,6 +128,14 @@ app.delete('/todos/:id', async (req, res) => {
         res.status(400).json(error.message)
     }
 });
+
+
+
+
+
+
+app.use('/api/v1', userRoutes);   // <-- Ejecutando las rutas.  (userRoutes : middleware.)
+
 
 const PORT = 8100;
 
